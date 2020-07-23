@@ -1,0 +1,33 @@
+@use "sass:string";
+@use "sass:list";
+@use "sass:meta";
+
+
+@mixin insert-selector($target, $insert) {
+  @if meta.type-of($target) !='string' {
+    @error "The argument $target: '#{$target}' is of incorrect type: '#{type-of($target)}'. Type of 'string' is required!";
+  }
+
+  @if meta.type-of($insert) !='string' {
+    @error "The argument $insert: '#{$insert}' is of incorrect type: '#{type-of($insert)}'. Type of 'string' is required!";
+  }
+
+  $index: string.index(#{&}, $target);
+
+  $check-element: string.slice($insert, 1, 1);
+  $prepends: ".",
+  "[",
+  "#",
+  ":";
+
+  @if list.index($prepends, $check-element) {
+    $length: string.length($target);
+    $index: $index + $length;
+  }
+
+  $return: string.insert(#{&}, $insert, $index);
+
+  @at-root #{$return} {
+    @content;
+  }
+}

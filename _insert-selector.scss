@@ -1,0 +1,28 @@
+@mixin insert-selector($target, $insert) {
+  @if type-of($target) !='string' {
+    @error "The argument $target: '#{$target}' is of incorrect type: '#{type-of($target)}'. Type of 'string' is required!";
+  }
+
+  @if type-of($insert) !='string' {
+    @error "The argument $insert: '#{$insert}' is of incorrect type: '#{type-of($insert)}'. Type of 'string' is required!";
+  }
+
+  $index: str-index(#{&}, $target);
+
+  $check-element: str-slice($insert, 1, 1);
+  $prepends: ".",
+  "[",
+  "#",
+  ":";
+
+  @if index($prepends, $check-element) {
+    $length: str-length($target);
+    $index: $index + $length;
+  }
+
+  $return: str-insert(#{&}, $insert, $index);
+
+  @at-root #{$return} {
+    @content;
+  }
+}
