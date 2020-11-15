@@ -1,0 +1,26 @@
+{
+  "name": "insert-selector",
+  "version": "1.0.0",
+  "description": "SCSS mixin for adding a selector into the nested element tree",
+  "main": "_insert-selector-modules.scss",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/garymazzeo/insert-selector.git"
+  },
+  "keywords": [
+    "scss",
+    "element",
+    "parent",
+    "tree",
+    "module"
+  ],
+  "author": "Gary Mazzeo",
+  "license": "Public Domain",
+  "bugs": {
+    "url": "https://github.com/garymazzeo/insert-selector/issues"
+  },
+  "homepage": "https://github.com/garymazzeo/insert-selector#readme"
+}
