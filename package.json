@@ -10,6 +10,9 @@
     "type": "git",
     "url": "git+https://github.com/garymazzeo/insert-selector.git"
   },
+  "publishConfig": { 
+    "registry": "https://npm.pkg.github.com/" 
+  },
   "keywords": [
     "scss",
     "element",
