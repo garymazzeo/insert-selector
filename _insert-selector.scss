@@ -1,3 +1,12 @@
+/// Inserts a modifier to a parent element
+///
+/// @param {string} $target
+///   the target element in the tree
+/// @param {string} $insert
+///   the element or modifier you want to insert
+/// @return {string} 
+///   full new element tree
+
 @mixin insert-selector($target, $insert) {
   @if type-of($target) !='string' {
     @error "The argument $target: '#{$target}' is of incorrect type: '#{type-of($target)}'. Type of 'string' is required!";
@@ -7,6 +16,7 @@
     @error "The argument $insert: '#{$insert}' is of incorrect type: '#{type-of($insert)}'. Type of 'string' is required!";
   }
 
+  // Find where the target is
   $index: str-index(#{&}, $target);
 
   $check-element: str-slice($insert, 1, 1);
@@ -15,11 +25,13 @@
   "#",
   ":";
 
+  // Check if insert is adding an attribute, add it after the element
   @if index($prepends, $check-element) {
     $length: str-length($target);
     $index: $index + $length;
   }
 
+  // Insert the insert at the right location
   $return: str-insert(#{&}, $insert, $index);
 
   @at-root #{$return} {

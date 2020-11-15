@@ -5,16 +5,34 @@ SCSS mixin for adding a selector into a nested list.
 It automatically adds class, ID, attribute, and pseudo selectors to the end of the target. It adds elements to the front.
 
 ## Requirements
-Dart Sass 1.23.0 for `@use` module syntax
+Dart Sass >=1.23.0 for `@use` module syntax
 
-## Usage
+## Install
 
 `npm install insert-selector`
 
 `yarn add insert-selector`
 
+If using [module syntax](https://sass-lang.com/documentation/at-rules/use) (it's the future):
 ```scss
 @use "insert-selector:insert-selector";
+```
+
+If using `@import` syntax:
+```scss
+@import "insert-selector";
+```
+
+## Usage
+```scss
+/// @param {string} $target
+///   the target element in the tree
+/// @param {string} $insert
+///   the element or modifier you want to insert
+/// @return {string} 
+///   full new element tree
+
+@include insert-selector("#target", ".insert")
 ```
 
 ## Examples
@@ -25,7 +43,6 @@ Dart Sass 1.23.0 for `@use` module syntax
 
     .price-info {
       display: grid;
-      grid-gap: 0.5rem 1.5rem;
 
       .buy-info {
         grid-column: 1;
@@ -46,7 +63,6 @@ compiles to
 ```scss
 .product-info .row-fluid .price-info {
   display: grid;
-  grid-gap: 0.5rem 1.5rem;
 }
 .product-info .row-fluid .price-info .buy-info {
   grid-column: 1;
@@ -54,7 +70,6 @@ compiles to
 .product-info .row-fluid.active .price-info .buy-info {
   grid-column: 3;
 }
-
 .product-info .row-fluid.outOfStock .price-info .buy-info {
   grid-column: 2;
 }
