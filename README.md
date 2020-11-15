@@ -5,7 +5,7 @@ SCSS mixin for adding a selector into a nested list.
 It automatically adds class, ID, attribute, and pseudo selectors to the end of the target. It adds elements to the front.
 
 ## Requirements
-Dart Sass >=1.23.0 for `@use` module syntax
+Dart Sass >=1.23.0 for `@use` [module syntax](https://css-tricks.com/introducing-sass-modules/)
 
 ## Install
 
