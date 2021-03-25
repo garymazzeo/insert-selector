@@ -15,12 +15,12 @@ Dart Sass >=1.23.0 for `@use` [module syntax](https://css-tricks.com/introducing
 
 If using [module syntax](https://sass-lang.com/documentation/at-rules/use) (it's the future):
 ```scss
-@use "insert-selector:insert-selector";
+@use "~insert-selector/insert-selector:insert-selector";
 ```
 
 If using `@import` syntax:
 ```scss
-@import "insert-selector";
+@import "~insert-selector/insert-selector";
 ```
 
 ## Usage
