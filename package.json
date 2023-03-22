@@ -2,7 +2,7 @@
   "name": "insert-selector",
   "version": "1.0.0",
   "description": "SCSS mixin for adding a selector into the nested element tree",
-  "main": "_insert-selector-modules.scss",
+  "main": "insert-selector.scss",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -18,7 +18,10 @@
     "element",
     "parent",
     "tree",
-    "module"
+    "module",
+    "mixin",
+    "sass",
+    "selector"
   ],
   "author": "Gary Mazzeo",
   "license": "Unlicense",
