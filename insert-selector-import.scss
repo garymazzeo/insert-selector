@@ -16,9 +16,31 @@
     @error "The argument $insert: '#{$insert}' is of incorrect type: '#{type-of($insert)}'. Type of 'string' is required!";
   }
 
-  // Find where the target is
-  $index: str-index(#{&}, $target);
+  // Test for target in full path
+  @if (str-index(#{&}, $target) == null) {
+    @error "The argument '#{$target}' is not in '#{&}'. Adjust the target!";
+  }
 
+  $selectors: selector-parse(#{&});
+  @debug selector-parse(#{&});
+  @debug type-of($selectors);
+  @debug list-separator($selectors);
+  $length: length($selectors);
+  @debug $length;
+
+  // Check if target is in tree
+  @debug $target;
+  @debug is-superselector(#{&}, $target);
+
+  // Add a space before if target is not the first selector
+  @if (str-index(#{&}, $target) !=1) {
+    $target: " #{$target}";
+  }
+
+  // Find where the target is
+  $index: str-index(#{&}, #{ $target});
+
+  // Get the first character of the insert
   $check-element: str-slice($insert, 1, 1);
   $prepends: ".",
   "[",

@@ -1,0 +1,98 @@
+@use "sass:list";
+@use "sass:map";
+@use "sass:meta";
+@use "sass:string";
+
+@function str-implode($list) {
+  $result: "";
+
+  @each $item in $list {
+    $result: $result + if(length($item) > 1, str-implode($item), $item);
+  }
+
+  @return $result;
+}
+
+
+/// Remove all trailing and leading whitespaces from `$string`.
+/// @since 1.2.0
+/// @param {String} $string - string
+/// @return {String}
+/// 
+@function str-trim($string) {
+  @if type-of($string) != "string" {
+    @error "`str-trim` function expecting a string for $string; #{type-of($string)} given.";
+    @return ();
+  }
+
+  $start: 1;
+  $end: str-length($string);
+
+  @for $i from 1 through str-length($string) {
+    $first: str-slice($string, $i, $i);
+    $last: str-slice($string, -$i, -$i);
+
+    @if $first == " " and $i + 1 == $start + 1 {
+      $start: $i + 1;
+    }
+
+    @if $last == " " and str-length($string) - $i == $end - 1 {
+      $end: str-length($string) - $i;
+    }
+  }
+
+  @return str-slice($string, $start, $end);
+}
+
+
+/// Turns a list of two items into a key/value map
+@function mapify($items) {
+  $item-map: ();
+
+  @if (meta.type-of($items) != 'list') {
+    @return $item-map;
+  } @else if (list.length($items) != 2) {
+    @return $item-map;
+  } @else if (list.length($items) == 2) {
+    $key: list.nth($items, 1);
+    $value: list.nth($items, 2);
+    @return map.set($item-map, $key, $value);
+  }
+}
+
+/// Get the first character of the items
+@function check-prepend($value) {
+  $value-prepend: string.slice($value, 1, 1);
+
+  $prepends: ".",
+    "[",
+    "#",
+    ":";
+  
+  @if not list.index($prepends, $value-prepend) {
+    @return "element";
+  } @else if list.index($prepends, $value-prepend) {
+    @return "attribute";
+  }
+}
+
+/// Checks to see whether it's an HTML element or attribute selector
+@function check-args($target, $insert) {
+  $args: ("target": $target, "insert": $insert);
+  $is-attributes: ();
+  
+  @each $arg in $args {
+    $arg-map: mapify($arg);
+    $key: list.nth(map.keys($arg-map), 1);
+    $value: list.nth(map.values($arg-map), 1);
+
+    @if meta.type-of($value) !='string' {
+      @error "The argument #{$arg}: '#{$value}' is of incorrect type: '#{type-of($value)}'. Type of 'string' is required!";
+      @return ();
+    }
+    
+    $is-attributes: map.set($is-attributes, $key, check-prepend($value));
+  }
+
+  @return $is-attributes;
+}

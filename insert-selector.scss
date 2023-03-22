@@ -1,0 +1,80 @@
+@use "sass:list";
+@use "sass:map";
+@use "sass:meta";
+@use "sass:selector";
+@use "sass:string";
+@use "src/functions" as *;
+
+
+/// Inserts a modifier to a parent element in a complex selector
+///
+/// @param {string} $target
+///   the target element in the tree
+/// @param {string} $insert
+///   the element or modifier you want to insert
+/// @param {boolean} $child, default false
+///   if true, the $insert is a separate child element in the selector tree
+/// @return {string} 
+///   full new element tree
+@mixin insert-selector($target, $insert, $child: false) {
+  $target: str-trim($target);
+  $insert: str-trim($insert);
+  $is-attributes: check-args($target, $insert);
+  
+  $match: 0;
+  $compound-list: ();
+  $selectors: selector.parse(#{&});
+  $complex-selector: list.nth($selectors, 1);
+
+  @each $compound-selector in $complex-selector {
+    $compound-index: list.index($complex-selector, $compound-selector);
+    $simple-selectors: selector.simple-selectors($compound-selector);
+
+    @each $simple-selector in $simple-selectors {
+      $selector-index: list.index($simple-selectors, $simple-selector);
+
+      @if ($simple-selector == $target) {
+        $match: $match + 1;
+
+        @if $child {
+          $simple-selector: '#{$simple-selector} #{$insert}';
+        } @else if (map.get($is-attributes, 'target') == "element" and map.get($is-attributes, 'insert') == "element") {
+          $simple-selector: '#{$insert} #{$simple-selector}';
+        } @else if (map.get($is-attributes, 'target') == "attribute" and map.get($is-attributes, 'insert') == "attribute") {
+            $simple-selector: '#{$simple-selector}#{$insert}';
+        } @else if (map.get($is-attributes, 'target') == "attribute" and map.get($is-attributes, 'insert') == "element") {
+          $simple-selector: '#{$insert}#{$simple-selector}';
+        } @else if (map.get($is-attributes, 'target') == "element" and map.get($is-attributes, 'insert') == "attribute") {
+          $simple-selector: '#{$simple-selector}#{$insert}';
+        } 
+
+        // Get the selector and where it is
+        $winner-index: $compound-index !global;
+        $winner: $simple-selector !global;
+        
+        // Add multiple simple selectors together with the new insert selector
+        @if (list.length($simple-selectors) > 1) {
+          $winner: list.set-nth($simple-selectors, $selector-index, $winner);
+          $winner: str-implode($winner) !global;
+        }
+      }
+    }
+    
+    // Rebuild the compound list after breaking into individual simple selectors
+    $compound-list: list.append($compound-list, $compound-selector);
+  }
+
+  // Make sure the target matches a selector
+  @if not $winner {
+    @error "The argument '#{$target}' is not in '#{&}'. Adjust the target!";
+  } @else if ($match > 1) {
+    @error "The original selector '#{&}' contains more than one of the argument '#{$target}'. Adjust the target!";
+  }
+
+  // Insert the insert at the right location
+  $return: list.set-nth($compound-list, $winner-index, $winner);
+
+  @at-root #{$return} {
+    @content;
+  }
+}
