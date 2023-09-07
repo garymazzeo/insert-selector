@@ -22,7 +22,11 @@ If using [module syntax](https://sass-lang.com/documentation/at-rules/use) (it's
 
 ```scss
 @use "insert-selector" as *;
+
+// You will probably need to use a path to you node_modules
+@use "../../../../node_modules/insert-selector/insert-selector" as *;
 ```
+*You can also use a [load path](https://sass-lang.com/documentation/at-rules/use/#load-paths) to make it cleaner. ([Load path in CLI docs](https://sass-lang.com/documentation/cli/dart-sass/#load-path))*
 
 If using `@import` syntax:
 
