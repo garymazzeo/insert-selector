@@ -1,6 +1,6 @@
 {
   "name": "insert-selector",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "SCSS mixin for adding a selector into the nested element tree",
   "main": "insert-selector.scss",
   "scripts": {
@@ -9,6 +9,11 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/garymazzeo/insert-selector.git"
+  },
+  "exports": {
+    ".": {
+      "sass": "./insert-selector.scss"
+    }
   },
   "keywords": [
     "scss",

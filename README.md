@@ -18,15 +18,19 @@ Dart Sass >=1.23.0 for `@use` [module syntax](https://css-tricks.com/introducing
 
 Import the mixin at the top of your `.scss` file.
 
-If using [module syntax](https://sass-lang.com/documentation/at-rules/use) (it's the future)(and also the default):
+If using [module syntax](https://sass-lang.com/documentation/at-rules/use) (it's the future)(and also the default), and you can use the [package import](https://sass-lang.com/documentation/at-rules/use/#node-js-package-importer):
 
 ```scss
 @use "insert-selector" as *;
 
-// You will probably need to use a path to you node_modules
+// With Dart Sass 1.71.0, you can use the pkg: importer
+@use "pkg:insert-selector" as *;
+
+// The old way, something like this
 @use "../../../../node_modules/insert-selector/insert-selector" as *;
 ```
-*You can also use a [load path](https://sass-lang.com/documentation/at-rules/use/#load-paths) to make it cleaner. ([Load path in CLI docs](https://sass-lang.com/documentation/cli/dart-sass/#load-path))*
+
+_You can also use a [load path](https://sass-lang.com/documentation/at-rules/use/#load-paths) to make it cleaner. ([Load path in CLI docs](https://sass-lang.com/documentation/cli/dart-sass/#load-path))_
 
 If using `@import` syntax:
 
