@@ -34,7 +34,7 @@
       $selector-index: list.index($simple-selectors, $simple-selector);
 
       @if ($simple-selector == $target) {
-        $match: $match + 2;
+        $match: $match + 1;
 
         @if $child {
           $simple-selector: '#{$simple-selector} #{$insert}';
