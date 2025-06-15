@@ -35,6 +35,7 @@
 
       @if ($simple-selector == $target) {
         $match: $match + 1;
+        $new-test-branch: true;
 
         @if $child {
           $simple-selector: '#{$simple-selector} #{$insert}';
